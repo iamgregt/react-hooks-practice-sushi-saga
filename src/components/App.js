@@ -11,6 +11,7 @@ function App() {
   const [sushis, setSushis] = useState([])
   const [pageNum, setPageNum] = useState(1)
   const [isEaten, setIsEaten] = useState(false)
+  const [cash, setCash] = useState(100)
   console.log(pageNum)
 
 
@@ -26,14 +27,27 @@ function loadMoreSushi(){
   setPageNum(pageNum => pageNum + 1)
 }
 
-function handleIsEaten(sushi){
+function handleIsEaten(){
   setIsEaten(!isEaten)
+}
+
+function handleChargeCustomer(price){
+  if(cash >= price){
+  setCash(cash => cash - price)
+  }else{
+    console.log("OUT OF MONEY")
+  }
+}
+
+function handleRefund(price){
+console.log(cash)
+console.log(price)
 }
 
   return (
     <div className="app">
-      <SushiContainer sushis={sushis} onLoadMore={loadMoreSushi} onEat={handleIsEaten} isEaten={isEaten} />
-      <Table />
+      <SushiContainer sushis={sushis} onLoadMore={loadMoreSushi} onEat={handleIsEaten} isEaten={isEaten} onCharge={handleChargeCustomer} onRefund={handleRefund} />
+      <Table cash={cash} />
     </div>
   );
 }
